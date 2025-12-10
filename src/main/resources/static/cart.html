@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>cart</title>
+		<style>
+			body{
+				background-color:paleyellow;
+							
+			}
+			a{
+				border:solid black 2px;
+				background-color:orange;
+				border-radius:5px;
+				padding:10px;
+				text-decoration:none;
+				
+			}
+			</style>
+			</head>
+<body>
+	
+<h1>Your Cart</h1>
+<div id="cart"></div>
+
+<script>
+let products = [];
+
+async function loadCart() {
+  const pRes = await fetch('/api/products');
+  products = await pRes.json();
+
+  const cRes = await fetch('/api/cart');
+  const cart = await cRes.json();
+
+  let div = document.getElementById('cart');
+  div.innerHTML = "";
+
+  cart.forEach(item => {
+    let p = products.find(x => x.id === item.productId);
+    div.innerHTML += `
+      <img src="${p.imageUrl}" width="100"><br>
+      ${p.name} | Qty: ${item.quantity}<br>
+    `;
+  });
+}
+
+loadCart();
+</script>
+
+<p><a href="/product.html">Continue Shopping</a> | <a href="/checkout.html">Checkout</a></p>
+</body>
+</html>

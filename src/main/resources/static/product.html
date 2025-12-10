@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			smart phone accessories</title>
+		<style>
+			body{
+				background-color:pink;
+			}
+			img{
+				width:100%;
+			}
+			#products{
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				text-align:center;
+				margin-left:100px;
+				
+			}
+			h1{
+				margin-top:100px;
+				margin-left:470px;
+				font-size:80px;
+				font-style:italic;
+			}
+			button{
+				border-radius:10px;
+				background-color:lightblue;
+			}
+			input{
+				border-radius:5px;
+				width:50px;
+			}
+			a{
+				text-decoration:none;
+				border:solid black 2px;
+				background-color:lightgreen;
+				border-radius:10px;
+				margin-left:650px;
+				padding:5px;
+				
+			}
+			
+		</style>
+		</head>
+			
+<body>
+<h1>Mobile Accessories</h1>
+
+
+<div id="products"></div>
+
+<script>
+async function loadProducts() {
+  const res = await fetch('/api/products');
+  const products = await res.json();
+  const div = document.getElementById('products');
+
+  products.forEach(p => {
+    div.innerHTML += `
+	<div class="pro">
+      <img src="${p.imageUrl}" width="120"><br>
+      <b>${p.name}</b> - ${p.price}<br>
+      <input type="number" id="qty-${p.id}" value="1" min="1">
+      <button onclick="addToCart(${p.id})">Add to Cart</button>
+	  </div>
+      <hr>
+    `;
+  });
+}
+
+async function addToCart(id) {
+  let qty = document.getElementById("qty-"+id).value;
+  await fetch('/api/cart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({productId:id, quantity:qty})
+  });
+  alert("Added to cart!");
+}
+
+loadProducts();
+</script>
+
+<p><a href="/cart.html">Go to Cart</a></p>
+</body>
+</html>

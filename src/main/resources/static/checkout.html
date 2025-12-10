@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>checkout</title>
+		<style>
+			button{
+				border-radius:10px;
+				background-color:palegreen;
+				
+			}
+			a{
+                border:solid black 2px;
+				background-color:cyan;
+				border-radius:5px;
+				padding:5px;
+				text-decoration:none;
+							
+						}
+			</style>
+			</head>
+<body>
+<h1>Checkout</h1>
+<button onclick="checkout()">Get Total</button>
+
+<p id="msg"></p>
+
+<script>
+async function checkout() {
+  const res = await fetch('/api/checkout');
+  const text = await res.text();
+  document.getElementById('msg').innerText = text;
+}
+</script>
+
+<p><a href="/product.html">Back to Products</a></p>
+</body>
+</html>
